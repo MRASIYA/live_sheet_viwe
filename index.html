@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sheets Data</title>
+</head>
+<body>
+    <h2>Google Sheets Data:</h2>
+    <table id="sheetData"></table>
+
+    <script>
+        const sheetID = "AKfycbyhWERuggwQKtFDgO-elbn1I1q02902IFEWFnPqZO2oE2fhJRIboTx8TjZE4Mddngk9Vg"; // Find this in your sheet's URL
+        const apiKey = "YOUR_GOOGhttps://script.google.com/macros/s/AKfycbyhWERuggwQKtFDgO-elbn1I1q02902IFEWFnPqZO2oE2fhJRIboTx8TjZE4Mddngk9Vg/execLE_API_KEY";  // Get this from Google Cloud Console
+
+        // API URL to fetch data from the Google Sheets API
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/Sheet1?key=${apiKey}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                let sheetData = data.values;
+                let table = document.getElementById("sheetData");
+
+                sheetData.forEach((row, index) => {
+                    let tr = document.createElement("tr");
+                    row.forEach(cell => {
+                        let td = document.createElement("td");
+                        td.textContent = cell;
+                        tr.appendChild(td);
+                    });
+                    table.appendChild(tr);
+                });
+            })
+            .catch(error => console.log("Error fetching data: ", error));
+    </script>
+</body>
+</html>
